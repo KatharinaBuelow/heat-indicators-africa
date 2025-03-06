@@ -15,6 +15,13 @@ For the calculation [index_calculator](https://github.com/climate-service-center
 
 Reference time period is 1981-2010.
 
+### Plotting:
+
+If you like to plot the horizontal differences to the reference periode
+use
+	Notebooks/horiplot-heat-indicator-diff-robust.ipynb
+	Notebooks/plotting_tools_africa.py
+
 
 
 
