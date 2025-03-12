@@ -2,6 +2,18 @@
 
 This repository documents the procedure, how the maps of climate heat indicator for africa on the basis of [CORDEX AFR-22](https://cordex.org/experiment-guidelines/cordex-cmip5/cordex-core/cordex-core-simulations/) data got developed.
 
+## Environment
+
+I executed the following steps to built my environment by installing e.g. [pyhomogenize](https://github.com/climate-service-center/pyhomogenize)and [py-cordex](https://github.com/euro-cordex/py-cordex):
+
+  conda create --name afrheat python==3.10
+  conda activate afrheat
+  conda install -c conda-forge py-cordex
+  pip install pyhomogenize
+  pip install matplotlib
+  pip install seaborn
+  pip install cartopy
+
 
 ## Different heat indicators got calculated:
 
