@@ -7,10 +7,11 @@ Here are some Notebooks to explore the original shape file and make a big region
 The final shape file should be put into this directory:
 
     ~/climate_fact_data/climate_fact_data/data/shp
-
-
-## Notebooks
+## Notebook
 
     /home/g/g300047/SCRIPTS/github/heat-indicators-africa/Notebooks/read_nuts_2024_africa.ipynb
+<img src="plots/africa_wascal_map.png" alt="WASCAL" width="40%" />
+
+
 
 
