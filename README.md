@@ -2,7 +2,7 @@
 
 This repository documents the procedure, how the maps of climate heat indicator for africa on the basis of [CORDEX AFR-22](https://cordex.org/experiment-guidelines/cordex-cmip5/cordex-core/cordex-core-simulations/) data got developed.
 
-## [Environment](ENVIRONMENT.md)
+### [Environment](ENVIRONMENT.md)
 
 
 ## Different heat indicators got calculated:
@@ -18,7 +18,7 @@ For the calculation [index_calculator](https://github.com/climate-service-center
 Reference time period is 1981-2010.
 	 
 
-### Plotting:
+### Plotting horizontal maps:
 
 If you like to plot the horizontal differences to the reference periode use
 
@@ -27,7 +27,7 @@ If you like to plot the horizontal differences to the reference periode use
 
 
 
-## Area mean plots
+### Plotting timeseries of area mean
 
 Starting with implementing the [region](REGION.md) in climate fact data.
 After calculation the area mean of the region,
