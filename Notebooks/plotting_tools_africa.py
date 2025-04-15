@@ -32,9 +32,6 @@ def add_unit(data,var):
 
 def get_variable(data,var):
     '''Change the variable of absolute Temperature and unit for plotting'''
-
-    
-        #data_variable = data[var]
     
     if var =='TG':
         data_variable = data[var]-273.15
@@ -46,7 +43,7 @@ def get_variable(data,var):
     return data_variable
    
 
-def plot_6diff(
+def plot_4diff(
         sims_rcp26,
         sims_rcp85,
         robust_rcp26,
@@ -59,11 +56,12 @@ def plot_6diff(
         title="",
         var="",
         robustness=None,
+        westafrica=None,
+        user_dpi=300,
         ):
 
     from cartopy import crs as ccrs
     import cartopy.feature as cf
-    
     
     # Some graphical features:
     # set the colors:
@@ -72,24 +70,21 @@ def plot_6diff(
     colors=color_steps_diff
     hatchcolor='grey'
     plt.rcParams.update({'hatch.color': hatchcolor})
-    
-    #from matplotlib.colors import ListedColormap
-    #colors = ListedColormap(color_steps_diff)
-    #colors.set_bad(color="green")
-    #colors.set_under(color="white")
-    #vmin=0.5
-    
+        
     font = {
         'family' : 'sans-serif',
         'weight' : 'normal',
-}
+        }
+
+    if westafrica is True:
+        height=5.5
+    else:
+        height=7.5
 
     # Create subplots
     fig, axes = plt.subplots(
-            ncols=3, nrows=2, figsize=(10,5.1), subplot_kw={'projection': ccrs.PlateCarree()}) 
-    # Space between rows:
-    #fig.subplots_adjust(hspace=0.3)
-    
+            ncols=2, nrows=2, figsize=(7,height), subplot_kw={'projection': ccrs.PlateCarree()}) 
+       
     for row in axes:
         for ax in row:
             ax.gridlines(
@@ -101,12 +96,19 @@ def plot_6diff(
             )
             ax.coastlines(resolution="50m", color="black", linewidth=1)
             ax.add_feature(cf.BORDERS)
-            #ax.set_extent([-20, 60, -35, 35])
-            #west Afrika
+
+             #west Afrika
             #lon : -25.87 to 20 by 0.11 degrees
             #lat : -0.75 to 27.3 by 0.11 degrees
-            ax.set_extent([-25, 20, -0.75, 27.3])
-    
+            if westafrica is True:
+                region='West_Africa'
+                ax.set_extent([-25, 20, -0.75, 27.3])
+                # Space between rows:
+                fig.subplots_adjust(hspace=0.03)
+            else:
+                region='Africa'
+                ax.set_extent([-20, 60, -35, 35])
+
     # Plot data for rcp26
     for i, file in enumerate(sims_rcp26):
         print(file)
@@ -124,7 +126,8 @@ def plot_6diff(
         fig.suptitle(s+": ", 
                  fontsize=14, 
                  #fontweight='bold', 
-                 x=0.5
+                 x=0.5,
+                 position=(0.5, 0.99),
                  )  
                 
         im = data_variable.plot(ax=axes[0, i],
@@ -150,7 +153,7 @@ def plot_6diff(
                         transform=ccrs.PlateCarree()
                         )
 
-        axes[0, i].set_title(f'RCP26: {file.split("_")[5]}-{file.split("_")[6]}',fontsize=12)
+        axes[0, i].set_title(f'RCP26: {file.split("_")[4]}-{file.split("_")[5]}',fontsize=12)
 
     # Plot data for rcp85
     for i, file in enumerate(sims_rcp85):
@@ -172,8 +175,6 @@ def plot_6diff(
             robust_rcp85=file.replace(what,robust) #'time-mean_ensemble-diff-median.nc','ensemble-robustness.nc')
             datar = xr.open_dataset(robust_rcp85)
             datar_variable = datar[var]
-            #datar_variable = datar['SU35']
-            #plt.rcParams.update({'hatch.color': hatchcolor})
             significant = xr.where(~datar_variable.isin([-1, 1, 0]), 1, 0).squeeze()
             significant.plot.contourf(
                     ax=axes[1,i],
@@ -184,14 +185,14 @@ def plot_6diff(
                     extend='both',
                     transform=ccrs.PlateCarree()
             )
-        axes[1, i].set_title(f'RCP85: {file.split("_")[5]}-{file.split("_")[6]}',fontsize=12)
+        axes[1, i].set_title(f'RCP85: {file.split("_")[4]}-{file.split("_")[5]}',fontsize=12)
 
     cbar_ax = fig.add_axes([0.15, 0.02, 0.7, 0.03])
     fig.colorbar(im, cax=cbar_ax, orientation="horizontal", label='[ '+unit+' ]')
 
-    name="{}/{}_change.png".format(plotdir, var)
+    name="{}/{}_diff-robust_{}_{}.png".format(plotdir, var, region, user_dpi)
 
-    savefig(plt, "{}".format(name),300) # dpi should be 1200 for a publication
+    savefig(plt, "{}".format(name),user_dpi) 
     return
 
 
@@ -229,8 +230,7 @@ def plot_6absolut(
     # Create subplots
     fig, axes = plt.subplots(
             ncols=3, nrows=2, figsize=(10,height), subplot_kw={'projection': ccrs.PlateCarree()}) 
-    # Space between rows:
-    #fig.subplots_adjust(hspace=0.3)
+  
     
     for row in axes:
         for ax in row:
